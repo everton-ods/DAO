@@ -9,11 +9,9 @@ class Sql extends PDO {
         
         foreach($listaParametros as $key => $value) {
             $statement->setParametro($statement, $key, $value);
+            $statement->bindParam($key, $value);
         }
 
-    }
-    private function setParametro($statement, $key, $value){
-        $statement->bindParam($key, $value);
     }
 
     public function execquery($rawQuery, $parametros = array()) {
