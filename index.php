@@ -2,8 +2,33 @@
 
 require_once("config.php");
 
-$sql = new Sql();
+$listUsuarios = Usuario::getList();
 
-$usuarios = $sql->select("SELECT * FROM tb_usuarios");
+echo json_encode($listUsuarios);
 
-echo json_encode($usuarios);
+
+echo"\n";
+
+
+$root = new Usuario();
+$root->loadbyId(1);
+echo $root;
+
+echo"\n";
+
+$searchUsusario = Usuario::search("ever");
+echo json_encode($searchUsusario);
+
+echo "\n";
+
+$loginUser = new Usuario();
+$loginUser->Login("everton@gmail.com","123");
+echo $loginUser;
+
+echo"";
+
+
+
+
+
+
