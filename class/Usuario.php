@@ -1,118 +1,136 @@
 <?php
 
-class Usuario {
+class Usuario
+{
 
     private $idusuario;
     private $email;
     private $senha;
-    
 
-    public function getIdusuario(){
+
+    public function getIdusuario()
+    {
 
         return $this->idusuario;
-
     }
 
-    public function setIdusuario($value){
+    public function setIdusuario($value)
+    {
 
         $this->idusuario = $value;
-
     }
 
-    public function getEmail(){
+    public function getEmail()
+    {
 
         return $this->email;
-
     }
 
-    public function setEmail($value){
+    public function setEmail($value)
+    {
 
         $this->email = $value;
-
     }
 
-    public function getSenha(){
+    public function getSenha()
+    {
 
         return $this->senha;
-
     }
 
-    public function setSenha($value){
+    public function setSenha($value)
+    {
 
         $this->senha = $value;
-
     }
 
 
-    public function loadById($id){
+    public function loadById($id)
+    {
 
         $sql = new Sql();
 
         $results = $sql->select("SELECT * FROM tb_usuarios WHERE idusuario = :ID", array(
 
-            ":ID"=>$id
+            ":ID" => $id
 
         ));
 
-        if (isset($results) && count($results) > 0){
+        if (isset($results) && count($results) > 0) {
 
-            $row = $results[0];
-
-            $this->setIdusuario($row['idusuario']);
-            $this->setEmail($row['email']);
-            $this->setSenha($row['senha']);
-      
-
+            $this->setData($results[0]);
         }
-
     }
 
-    public function __toString(){
+    public function __toString()
+    {
 
         return json_encode(array(
 
-            "idusuario"=>$this->getIdusuario(),
-            "email"=>$this->getEmail(),
-            "senha"=>$this->getSenha(),
-           
+            "idusuario" => $this->getIdusuario(),
+            "email" => $this->getEmail(),
+            "senha" => $this->getSenha(),
+
 
         ));
-
     }
-    public static function getList(){
-        $sql = new Sql() ;
-        return $sql->select("SELECT * FROM tb_usuarios ORDER BY email;") ;
-    }
-
-    public static function search($login){
+    public static function getList()
+    {
         $sql = new Sql();
-        return $sql->select("SELECT * FROM tb_usuarios WHERE email LIKE :SEARCH ORDER BY email",array(
-            ":SEARCH" =>"%".$login."%"
+        return $sql->select("SELECT * FROM tb_usuarios ORDER BY email;");
+    }
+
+    public static function search($login)
+    {
+        $sql = new Sql();
+        return $sql->select("SELECT * FROM tb_usuarios WHERE email LIKE :SEARCH ORDER BY email", array(
+            ":SEARCH" => "%" . $login . "%"
         ));
     }
-    public function Login($login, $password){
+    public function Login($login, $password)
+    {
         $sql = new Sql();
 
         $results = $sql->select("SELECT * FROM tb_usuarios WHERE email = :LOGIN AND senha = :PASS", array(
 
-            ":LOGIN"=>$login,
-            ":PASS"=>$password,
+            ":LOGIN" => $login,
+            ":PASS" => $password,
 
         ));
 
-        if (isset($results) && count($results) > 0){
+        if (isset($results) && count($results) > 0) {
 
-            $row = $results[0];
-
-            $this->setIdusuario($row['idusuario']);
-            $this->setEmail($row['email']);
-            $this->setSenha($row['senha']);
-      
-
-        } else{
+            $this->setData($results[0]);
+        } else {
             throw new Exception('error');
         }
     }
+    public function setData($data)
+    {
+        $this->setIdusuario($data['idusuario']);
+        $this->setEmail($data['email']);
+        $this->setSenha($data['senha']);
+    }
 
+    public function __construct($login = "", $senha = ""){
+        $this->setEmail($login);
+        $this->setSenha($senha);
+    }
+
+
+
+    public function insert()
+    {
+        $sql = new Sql();
+        $results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASS)", array(
+            ':LOGIN' => $this->getEmail(),
+            ':PASS' => $this->getSenha(),
+        ));
+        if (isset($results) && count($results) > 0) {
+
+            $this->setData($results[0]);
+        } else {
+            throw new Exception('error');
+        }
+    }
 }
-
