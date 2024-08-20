@@ -98,12 +98,7 @@ class Usuario
 
         ));
 
-        if (isset($results) && count($results) > 0) {
-
-            $this->setData($results[0]);
-        } else {
-            throw new Exception('error');
-        }
+        
     }
     public function setData($data)
     {
@@ -112,7 +107,8 @@ class Usuario
         $this->setSenha($data['senha']);
     }
 
-    public function __construct($login = "", $senha = ""){
+    public function __construct($login = "", $senha = "")
+    {
         $this->setEmail($login);
         $this->setSenha($senha);
     }
@@ -126,6 +122,24 @@ class Usuario
             ':LOGIN' => $this->getEmail(),
             ':PASS' => $this->getSenha(),
         ));
+        if (isset($results) && count($results) > 0) {
+
+            $this->setData($results[0]);
+        } else {
+            throw new Exception('error');
+        }
+    }
+    public function update($email, $senha)
+    {
+        $this->setEmail($email);
+        $this->setSenha($senha);
+        $sql = new Sql();
+        $results = $sql->select("UPDATE tb_usuarios SET email = :LOGIN, senha = :PASS WHERE idusuario = :ID", array(
+            ':LOGIN' => $this->getEmail(),
+            ':PASS' => $this->getSenha(),
+            ":ID" => $this->getIdusuario()
+        ));
+
         if (isset($results) && count($results) > 0) {
 
             $this->setData($results[0]);

@@ -28,10 +28,17 @@ echo $loginUser;
 echo"";
 
 $aluno = new Usuario("ston@ff.com","123");
-
 $aluno->insert();
 
 echo $aluno;
+
+$usuario = new Usuario();
+$usuario->loadbyId(1);
+$usuario->update("evert@gmail.com","123");
+
+echo $usuario;
+
+
 
 
 
