@@ -10,33 +10,37 @@ echo json_encode($listUsuarios);
 echo"\n";
 
 
-$root = new Usuario();
-$root->loadbyId(1);
-echo $root;
+//$root = new Usuario();
+//$root->loadbyId(1);
+//echo $root;
 
 echo"\n";
 
-$searchUsusario = Usuario::search("ever");
-echo json_encode($searchUsusario);
+//$searchUsusario = Usuario::search("ever");
+//echo json_encode($searchUsusario);
 
 echo "\n";
 
-$loginUser = new Usuario();
-$loginUser->Login("everton@gmail.com","123");
-echo $loginUser;
+//$loginUser = new Usuario();
+//$loginUser->Login("everton@gmail.com","123");
+//echo $loginUser;
 
 echo"";
 
-$aluno = new Usuario("ston@ff.com","123");
-$aluno->insert();
+//$aluno = new Usuario("ston@ff.com","123");
+//$aluno->insert();
 
-echo $aluno;
+//echo $aluno;
 
-$usuario = new Usuario();
-$usuario->loadbyId(1);
-$usuario->update("evert@gmail.com","123");
+//$usuario = new Usuario();
+//$usuario->loadbyId(3);
+//$usuario->update("ever@gmail.com","123");
 
-echo $usuario;
+//echo $usuario;
+
+//$excluir = new Usuario();
+//$excluir->loadById(1);
+//$excluir->delete();
 
 
 
