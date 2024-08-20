@@ -2,33 +2,23 @@
 
 class Usuario
 {
-
     private $idusuario;
     private $email;
     private $senha;
-
-
     public function getIdusuario()
     {
-
         return $this->idusuario;
     }
-
     public function setIdusuario($value)
     {
-
         $this->idusuario = $value;
     }
-
     public function getEmail()
     {
-
         return $this->email;
     }
-
     public function setEmail($value)
     {
-
         $this->email = $value;
     }
 
@@ -97,8 +87,6 @@ class Usuario
             ":PASS" => $password,
 
         ));
-
-        
     }
     public function setData($data)
     {
@@ -131,6 +119,11 @@ class Usuario
     }
     public function update($email, $senha)
     {
+        if (isset($results) && count($results) > 0) {
+
+            $this->setData($results[0]);
+        }
+        
         $this->setEmail($email);
         $this->setSenha($senha);
         $sql = new Sql();
@@ -139,12 +132,14 @@ class Usuario
             ':PASS' => $this->getSenha(),
             ":ID" => $this->getIdusuario()
         ));
+    }
+    public function delete()
+    {
+        $sql = new Sql();
+        $results = $sql->select("DELETE FROM tb_usuarios WHERE idusuario = :ID", array(
 
-        if (isset($results) && count($results) > 0) {
+            ":ID" => $this->getIdusuario()
 
-            $this->setData($results[0]);
-        } else {
-            throw new Exception('error');
-        }
+        ));
     }
 }
